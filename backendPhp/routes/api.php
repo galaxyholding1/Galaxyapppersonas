@@ -8,7 +8,7 @@ $requestUri = explode('?', $_SERVER['REQUEST_URI'])[0];
 
 // Elimina el prefijo /galaxy-api-eng/public/index.php si se accede directamente con él
 // Remove the /galaxy-api-eng/public/index.php prefix if accessed directly with it
-$requestUri = str_replace('/galaxy-api-eng/public/index.php', '', $requestUri);
+$requestUri = str_replace('/galaxy-api-eng/backendPhp/public/index.php', '', $requestUri);
 
 // También soporta si acceden directamente como /index.php/login (por seguridad extra)
 // Also supports if you access directly as /index.php/login (for extra security)

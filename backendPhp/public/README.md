@@ -76,7 +76,7 @@ Abrir en navegador:
 ruby
 Copiar
 Editar
-http://localhost/galaxy-api-eng/public/docs/index.html
+http://localhost/galaxy-api-eng/backendPhp/public/docs/index.html
 
 ---
 

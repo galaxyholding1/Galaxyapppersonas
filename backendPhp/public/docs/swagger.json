@@ -1,0 +1,107 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "GalaxyPay API",
+    "version": "1.0.0",
+    "description": "API RESTful para autenticación y registro de usuarios"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/galaxy-api-eng/public/index.php",
+      "description": "Servidor local sin .htaccess"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Iniciar sesión",
+        "description": "Autentica un usuario mediante correo y contraseña",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "juan@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inicio de sesión exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Parámetros inválidos" },
+          "401": { "description": "Credenciales incorrectas" }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Registrar usuario",
+        "description": "Crea una nueva cuenta de usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "email@example.com" },
+                  "password": { "type": "string", "example": "Abc123@" },
+                  "name": { "type": "string", "example": "John" },
+                  "familyName": { "type": "string", "example": "Doe" },
+                  "phone": { "type": "string", "example": "+573001112233" },
+                  "address": { "type": "string", "example": "123 Main St" },
+                  "addressSecondary": { "type": "string", "example": "Apt 301" },
+                  "postalCode": { "type": "string", "example": "110111" },
+                  "countryId": { "type": "integer", "example": 1 },
+                  "acceptTerms": { "type": "boolean", "example": true },
+                  "acceptPolitics": { "type": "boolean", "example": true },
+                  "clientType": { "type": "string", "example": "people" },
+                  "documentNumber": { "type": "string", "example": "1234567890" },
+                  "birthdate": { "type": "string", "example": "1990-01-15" },
+                  "documentTypeId": { "type": "integer", "example": 1 }
+                },
+                "required": [
+                  "email", "password", "name", "familyName", "phone", "address",
+                  "postalCode", "countryId", "acceptTerms", "acceptPolitics",
+                  "clientType", "documentNumber", "birthdate", "documentTypeId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuario registrado exitosamente" },
+          "400": { "description": "Error de validación" },
+          "409": { "description": "Email ya registrado" },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    }
+  }
+}

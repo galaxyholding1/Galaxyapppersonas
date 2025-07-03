@@ -1,0 +1,76 @@
+-- 🔹 1. Tabla de países
+CREATE TABLE country (
+  id INT AUTO_INCREMENT PRIMARY KEY,              -- ID del país
+  name TEXT NOT NULL,                             -- Nombre del país
+  iso_code CHAR(2) NOT NULL,                      -- Código ISO (ej: CO, US)
+  flag_url TEXT,                                  -- URL de la bandera del país
+  dialing_code VARCHAR(10)                        -- Código telefónico internacional (ej: +57)
+);
+
+-- 🔹 2. Tabla principal de usuarios
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,              -- ID del usuario
+  email VARCHAR(100) UNIQUE NOT NULL,             -- Correo electrónico del usuario
+  user_type VARCHAR(20) NOT NULL,                 -- Tipo de usuario (cliente, empresa, externo, admin)
+  state VARCHAR(20) DEFAULT 'pending',            -- Estado de la cuenta del usuario (pendiente, activo, bloqueado)
+  accept_terms BOOLEAN DEFAULT FALSE,             -- Aceptó los términos y condiciones
+  accept_polits BOOLEAN DEFAULT FALSE,            -- Aceptó la política de privacidad
+  created_at TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,  -- Fecha de creación del registro
+  updated_at TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP   -- Fecha de última actualización
+);
+
+-- 🔹 3. Datos secundarios del usuario
+CREATE TABLE user_data (
+  id INT AUTO_INCREMENT PRIMARY KEY,              -- ID del registro
+  user_id INT NOT NULL,                           -- Relación con el usuario (users.id)
+  name VARCHAR(50),                               -- Nombre del usuario
+  family_name VARCHAR(50),                        -- Apellido del usuario
+  phone VARCHAR(20),                              -- Número de teléfono
+  address VARCHAR(45),                            -- Dirección principal
+  address_secondary VARCHAR(45),                  -- Dirección secundaria o adicional
+  postal_code VARCHAR(10),                        -- Código postal
+  country_id INT,                                 -- País de residencia
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (country_id) REFERENCES country(id)
+);
+
+-- 🔹 4. Autenticación por contraseña
+CREATE TABLE user_auth (
+  id INT AUTO_INCREMENT PRIMARY KEY,              -- ID de autenticación
+  user_id INT NOT NULL,                           -- Relación con el usuario
+  password VARCHAR(255),                          -- Contraseña cifrada (hash)
+  created_at TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+  updated_at TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP, -- Última modificación
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 🔹 5. Métodos de autenticación del usuario
+CREATE TABLE auth_methods (
+  id INT AUTO_INCREMENT PRIMARY KEY,              -- ID del método
+  user_id INT NOT NULL,                           -- Relación con el usuario
+  method_type ENUM('password', 'face', 'fingerprint', '2FA') NOT NULL, -- Tipo de autenticación
+  is_active BOOLEAN DEFAULT TRUE,                 -- Si el método está habilitado
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de activación
+  extra_data TEXT,                                -- Datos extra (ej: hash facial, ID del dispositivo)
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 🔹 6. Tipos de documento por usuario
+CREATE TABLE document_type (
+  id INT AUTO_INCREMENT PRIMARY KEY,              -- ID del tipo de documento
+  name TEXT NOT NULL,                             -- Nombre del documento (Ej: Cédula, Pasaporte)
+  acronym TEXT,                                   -- Acrónimo (Ej: CC, DNI)
+  user_type VARCHAR(20)                           -- Tipo de usuario al que aplica (client, business)
+);
+
+-- 🔹 7. Tipos de documento válidos por país
+CREATE TABLE document_type_by_country (
+  country_id INT NOT NULL,                        -- ID del país
+  document_type_id INT NOT NULL,                  -- ID del tipo de documento
+  PRIMARY KEY (country_id, document_type_id),
+  FOREIGN KEY (country_id) REFERENCES country(id),
+  FOREIGN KEY (document_type_id) REFERENCES document_type(id)
+);
+
+
+

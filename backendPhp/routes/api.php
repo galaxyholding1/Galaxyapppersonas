@@ -58,6 +58,26 @@ switch ($routeKey) {
         (new CountryController())->getAll();
         break;
 
+    case 'POST /validate/user':
+        require_once __DIR__ . '/../controllers/UserController.php';
+        (new UserController())->validateEmailAndPhone();
+        break;
+
+    case 'POST /validate/document':
+        require_once __DIR__ . '/../controllers/UserController.php';
+        (new UserController())->validateDocument();
+        break;
+
+    case 'POST /forgot-password':
+        require_once __DIR__ . '/../controllers/PasswordController.php';
+        (new PasswordController())->forgotPassword();
+        break;
+
+    case 'POST /reset-password':
+        require_once __DIR__ . '/../controllers/PasswordController.php';
+        (new PasswordController())->resetPassword();
+        break;
+
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Route not found']);

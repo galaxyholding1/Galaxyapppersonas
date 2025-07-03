@@ -59,4 +59,50 @@ class UserController
             echo json_encode(['error' => 'Failed to register user']);
         }
     }
+
+
+    public function validateEmailAndPhone()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid JSON']);
+            return;
+        }
+
+        $email = $data['email'] ?? null;
+        $phone = $data['phone'] ?? null;
+
+        if (!$email && !$phone) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Provide at least email or phone']);
+            return;
+        }
+
+        $userModel = new User();
+
+        $response = [
+            'emailExists' => $email ? $userModel->emailExists($email) : null,
+            'phoneExists' => $phone ? $userModel->phoneExists($phone) : null
+        ];
+
+        echo json_encode($response);
+    }
+
+    public function validateDocument()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (!isset($data['documentNumber'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'documentNumber is required']);
+            return;
+        }
+
+        $userModel = new User();
+        $exists = $userModel->documentExists($data['documentNumber']);
+
+        echo json_encode(['documentExists' => $exists]);
+    }
 }

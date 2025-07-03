@@ -17,6 +17,14 @@ class User
         return (bool) $stmt->fetch();
     }
 
+    public function phoneExists(string $phone): bool
+    {
+        $stmt = $this->conn->prepare("SELECT user_id FROM user_data WHERE phone = :phone LIMIT 1");
+        $stmt->execute(['phone' => $phone]);
+        return (bool) $stmt->fetch();
+    }
+
+
     public function registerUser(array $data): bool
     {
         try {
@@ -73,5 +81,12 @@ class User
             error_log("Error registering user: " . $e->getMessage());
             return false;
         }
+    }
+
+    public function documentExists(string $document): bool
+    {
+        $stmt = $this->conn->prepare("SELECT user_id FROM user_data WHERE document_number = :doc LIMIT 1");
+        $stmt->execute(['doc' => $document]);
+        return (bool) $stmt->fetch();
     }
 }

@@ -292,7 +292,120 @@
           }
         }
       }
+    },
+
+    "/forgot-password": {
+      "post": {
+        "summary": "Solicitar recuperación de contraseña",
+        "description": "Genera un token temporal para restablecer la contraseña del usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "juan@example.com"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token generado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Reset token generated" },
+                    "token":   { "type": "string", "example": "abc123xyz987..." }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Email no registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string", "example": "Email not found" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reset-password": {
+  "post": {
+    "summary": "Restablecer contraseña con token",
+    "description": "Permite restablecer la contraseña de un usuario utilizando un token válido (válido por 1 hora).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "integer",
+                "example": 1
+              },
+              "token": {
+                "type": "string",
+                "example": "abc123xyz456"
+              },
+              "newPassword": {
+                "type": "string",
+                "example": "NuevaClave@2025"
+              }
+            },
+            "required": ["userId", "token", "newPassword"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Contraseña cambiada exitosamente",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "Password reset successfully" }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Token inválido o expirado",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string", "example": "Invalid or expired token" }
+              }
+            }
+          }
+        }
+      }
     }
+  }
+}
+
 
 
   }

@@ -68,6 +68,15 @@ switch ($routeKey) {
         (new UserController())->validateDocument();
         break;
 
+    case 'POST /forgot-password':
+        require_once __DIR__ . '/../controllers/PasswordController.php';
+        (new PasswordController())->forgotPassword();
+        break;
+
+    case 'POST /reset-password':
+        require_once __DIR__ . '/../controllers/PasswordController.php';
+        (new PasswordController())->resetPassword();
+        break;
 
     default:
         http_response_code(404);

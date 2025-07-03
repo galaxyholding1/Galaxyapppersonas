@@ -102,6 +102,89 @@
           "500": { "description": "Error interno del servidor" }
         }
       }
+    },
+    "/countries": {
+      "get": {
+        "summary": "Listar países disponibles",
+        "description": "Devuelve una lista de países activos con nombre, código ISO, bandera y código telefónico",
+        "responses": {
+          "200": {
+            "description": "Lista de países",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "example": 1 },
+                          "name": { "type": "string", "example": "Colombia" },
+                          "isoCode": { "type": "string", "example": "CO" },
+                          "flagUrl": { "type": "string", "example": "https://flagcdn.com/co.svg" },
+                          "dialingCode": { "type": "string", "example": "+57" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/personal-documents/{countryId}/{type}": {
+      "get": {
+        "summary": "Obtener tipos de documento por país y tipo de usuario",
+        "description": "Devuelve los documentos válidos para el país indicado y el tipo de cliente ('client' o 'business').",
+        "parameters": [
+          {
+            "name": "countryId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 1 },
+            "description": "ID del país"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["client", "business"], "example": "client" },
+            "description": "Tipo de usuario: client o business"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de tipos de documento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id":        { "type": "integer", "example": 1 },
+                          "name":      { "type": "string",  "example": "Cédula de Ciudadanía" },
+                          "acronym":   { "type": "string",  "example": "CC" },
+                          "user_type": { "type": "string",  "example": "client" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Parámetros inválidos" },
+          "404": { "description": "No se encontraron tipos de documento" }
+        }
+      }
     }
   }
 }

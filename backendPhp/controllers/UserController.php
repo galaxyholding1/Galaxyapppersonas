@@ -1,108 +1,97 @@
 <?php
+
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/UserAuth.php';
+require_once __DIR__ . '/../models/UserData.php';
 
 class UserController
 {
     public function register()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
+        try {
+            $data = json_decode(file_get_contents("php://input"), true);
 
-        $requiredFields = [
-            'email',
-            'password',
-            'name',
-            'familyName',
-            'phone',
-            'address',
-            'postalCode',
-            'countryId',
-            'acceptTerms',
-            'acceptPolitics',
-            'clientType',
-            'documentNumber',
-            'birthdate',
-            'documentTypeId'
-
-        ];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
+            if (!$data || !isset($data['email']) || !isset($data['password'])) {
                 http_response_code(400);
-                echo json_encode(['error' => "Missing required field: $field"]);
+                echo json_encode(['error' => 'Email y contraseña son obligatorios']);
                 return;
             }
-        }
 
-        // Validación simple (puedes mejorarla con expresiones regulares, etc.)
-        // Simple validation (you can enhance it with regular expressions, etc.)
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid email format']);
-            return;
-        }
+            $email = trim($data['email']);
+            $password = trim($data['password']);
 
-        $userModel = new User();
+            $userModel = new User();
+            $userData = new UserData();
 
-        if ($userModel->emailExists($data['email'])) {
-            http_response_code(409);
-            echo json_encode(['error' => 'Email already registered']);
-            return;
-        }
+            // Validar duplicado de email
+            if ($userModel->existsByEmail($email)) {
+                http_response_code(409);
+                echo json_encode(['error' => 'Este correo ya está registrado']);
+                return;
+            }
 
-        $result = $userModel->registerUser($data);
+            // Validar duplicado de documento
+            if (!empty($data['documentNumber']) && $userData->existsByDocument($data['documentNumber'])) {
+                http_response_code(409);
+                echo json_encode(['error' => 'Este número de documento ya está registrado']);
+                return;
+            }
 
-        if ($result) {
-            http_response_code(201);
-            echo json_encode(['message' => 'User registered successfully']);
-        } else {
+            // Validar duplicado de teléfono
+            if (!empty($data['phone']) && $userData->existsByPhone($data['phone'])) {
+                http_response_code(409);
+                echo json_encode(['error' => 'Este número de teléfono ya está registrado']);
+                return;
+            }
+
+            // 1. Insertar en users
+            $userId = $userModel->create([
+                'email' => $email,
+                'user_type' => $data['clientType'],
+                'accept_terms' => $data['acceptTerms'] ? 1 : 0,
+                'accept_polits' => $data['acceptPolitics'] ? 1 : 0
+            ]);
+
+            if (!$userId) {
+                http_response_code(500);
+                echo json_encode(['error' => 'Error al registrar usuario']);
+                return;
+            }
+
+            // 2. Insertar en user_auth
+            $userAuth = new UserAuth();
+            $userAuth->create([
+                'user_id' => $userId,
+                'password' => password_hash($password, PASSWORD_BCRYPT)
+            ]);
+
+            // 3. Insertar en user_data
+            $userData->create([
+                'user_id' => $userId,
+                'name' => $data['name'] ?? null,
+                'family_name' => $data['familyName'] ?? null,
+                'phone' => $data['phone'] ?? null,
+                'address' => $data['address'] ?? null,
+                'address_secondary' => $data['addressSecondary'] ?? null,
+                'postal_code' => $data['postalCode'] ?? null,
+                'country_id' => $data['countryId'] ?? null,
+                'locality_id' => $data['localityId'] ?? null,
+                'document_number' => $data['documentNumber'] ?? null,
+                'birthdate' => $data['birthdate'] ?? null,
+                'document_type_id' => $data['documentTypeId'] ?? null,
+                'id_employment_status' => $data['id_employment_status'] ?? null,
+                'id_fund_source' => $data['id_fund_source'] ?? null,
+                'id_job_sector' => $data['id_job_sector'] ?? null
+            ]);
+
+            echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
+        } catch (Exception $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Failed to register user']);
+            echo json_encode([
+                'error' => 'Error interno',
+                'details' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
         }
-    }
-
-
-    public function validateEmailAndPhone()
-    {
-        $data = json_decode(file_get_contents("php://input"), true);
-
-        if (!$data) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid JSON']);
-            return;
-        }
-
-        $email = $data['email'] ?? null;
-        $phone = $data['phone'] ?? null;
-
-        if (!$email && !$phone) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Provide at least email or phone']);
-            return;
-        }
-
-        $userModel = new User();
-
-        $response = [
-            'emailExists' => $email ? $userModel->emailExists($email) : null,
-            'phoneExists' => $phone ? $userModel->phoneExists($phone) : null
-        ];
-
-        echo json_encode($response);
-    }
-
-    public function validateDocument()
-    {
-        $data = json_decode(file_get_contents("php://input"), true);
-
-        if (!isset($data['documentNumber'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'documentNumber is required']);
-            return;
-        }
-
-        $userModel = new User();
-        $exists = $userModel->documentExists($data['documentNumber']);
-
-        echo json_encode(['documentExists' => $exists]);
     }
 }

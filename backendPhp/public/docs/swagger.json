@@ -8,7 +8,7 @@
   "servers": [
     {
       "url": "http://localhost/galaxy-api-eng/backendPhp/public/index.php",
-      "description": "Servidor local sin .htaccess"
+      "description": "Servidor local"
     }
   ],
   "paths": {
@@ -60,48 +60,99 @@
       }
     },
     "/register": {
-      "post": {
-        "summary": "Registrar usuario",
-        "description": "Crea una nueva cuenta de usuario",
-        "requestBody": {
-          "required": true,
+    "post": {
+      "summary": "Registro de nuevo usuario",
+      "tags": ["Auth"],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": { "type": "string", "format": "email" },
+                "password": { "type": "string", "format": "password" },
+                "name": { "type": "string" },
+                "familyName": { "type": "string" },
+                "phone": { "type": "string" },
+                "address": { "type": "string" },
+                "addressSecondary": { "type": "string" },
+                "postalCode": { "type": "string" },
+                "countryId": { "type": "integer" },
+                "localityId": { "type": "integer" },
+                "acceptTerms": { "type": "boolean" },
+                "acceptPolitics": { "type": "boolean" },
+                "clientType": { "type": "string", "enum": ["people", "business"] },
+                "documentNumber": { "type": "string" },
+                "birthdate": { "type": "string", "format": "date" },
+                "documentTypeId": { "type": "integer" },
+                "id_employment_status": { "type": "integer" },
+                "id_fund_source": { "type": "integer" },
+                "id_job_sector": { "type": "integer" }
+              },
+              "required": ["email", "password", "name", "familyName", "documentNumber", "documentTypeId", "countryId", "clientType", "acceptTerms", "acceptPolitics"]
+            },
+            "example": {
+              "email": "email@example.com",
+              "password": "Abc123@",
+              "name": "John",
+              "familyName": "Doe",
+              "phone": "+573001112233",
+              "address": "123 Main St",
+              "addressSecondary": "Apt 301",
+              "postalCode": "110111",
+              "countryId": 1,
+              "localityId": 2,
+              "acceptTerms": true,
+              "acceptPolitics": true,
+              "clientType": "people",
+              "documentNumber": "1234567890",
+              "birthdate": "1990-01-15",
+              "documentTypeId": 1,
+              "id_employment_status": 1,
+              "id_fund_source": 2,
+              "id_job_sector": 3
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Usuario registrado correctamente",
           "content": {
             "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": { "type": "string", "example": "email@example.com" },
-                  "password": { "type": "string", "example": "Abc123@" },
-                  "name": { "type": "string", "example": "John" },
-                  "familyName": { "type": "string", "example": "Doe" },
-                  "phone": { "type": "string", "example": "+573001112233" },
-                  "address": { "type": "string", "example": "123 Main St" },
-                  "addressSecondary": { "type": "string", "example": "Apt 301" },
-                  "postalCode": { "type": "string", "example": "110111" },
-                  "countryId": { "type": "integer", "example": 1 },
-                  "acceptTerms": { "type": "boolean", "example": true },
-                  "acceptPolitics": { "type": "boolean", "example": true },
-                  "clientType": { "type": "string", "example": "people" },
-                  "documentNumber": { "type": "string", "example": "1234567890" },
-                  "birthdate": { "type": "string", "example": "1990-01-15" },
-                  "documentTypeId": { "type": "integer", "example": 1 }
-                },
-                "required": [
-                  "email", "password", "name", "familyName", "phone", "address",
-                  "postalCode", "countryId", "acceptTerms", "acceptPolitics",
-                  "clientType", "documentNumber", "birthdate", "documentTypeId"
-                ]
+              "example": {
+                "success": true,
+                "message": "Usuario registrado correctamente"
               }
             }
           }
         },
-        "responses": {
-          "201": { "description": "Usuario registrado exitosamente" },
-          "400": { "description": "Error de validación" },
-          "409": { "description": "Email ya registrado" },
-          "500": { "description": "Error interno del servidor" }
+        "400": {
+          "description": "Faltan campos obligatorios",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": "Email y contraseña son obligatorios"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "Email ya registrado",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": "Este correo ya está registrado"
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Error interno del servidor"
         }
       }
+    }
     },
     "/countries": {
       "get": {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-07-2025 a las 14:46:56
+-- Tiempo de generación: 04-07-2025 a las 19:12:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -43,7 +43,26 @@ INSERT INTO `country` (`id`, `name`, `iso_code`, `flag_url`, `dialing_code`) VAL
 (1, 'Colombia', 'CO', 'https://flagcdn.com/co.svg', '+57'),
 (2, 'Estados Unidos', 'US', 'https://flagcdn.com/us.svg', '+1'),
 (3, 'Argentina', 'AR', 'https://flagcdn.com/ar.svg', '+54'),
-(4, 'España', 'ES', 'https://flagcdn.com/es.svg', '+34');
+(4, 'España', 'ES', 'https://flagcdn.com/es.svg', '+34'),
+(5, 'Perú', 'PE', 'https://flagcdn.com/pe.svg', '+51'),
+(6, 'Ecuador', 'EC', 'https://flagcdn.com/ec.svg', '+593'),
+(7, 'México', 'MX', 'https://flagcdn.com/mx.svg', '+52'),
+(8, 'Chile', 'CL', 'https://flagcdn.com/cl.svg', '+56'),
+(9, 'Brasil', 'BR', 'https://flagcdn.com/br.svg', '+55'),
+(10, 'Uruguay', 'UY', 'https://flagcdn.com/uy.svg', '+598'),
+(11, 'Paraguay', 'PY', 'https://flagcdn.com/py.svg', '+595'),
+(12, 'Bolivia', 'BO', 'https://flagcdn.com/bo.svg', '+591'),
+(13, 'Canadá', 'CA', 'https://flagcdn.com/ca.svg', '+1'),
+(14, 'Portugal', 'PT', 'https://flagcdn.com/pt.svg', '+351'),
+(15, 'Italia', 'IT', 'https://flagcdn.com/it.svg', '+39'),
+(16, 'Francia', 'FR', 'https://flagcdn.com/fr.svg', '+33'),
+(17, 'Andorra', 'AD', 'https://flagcdn.com/ad.svg', '+376'),
+(18, 'Estonia', 'EE', 'https://flagcdn.com/ee.svg', '+372'),
+(19, 'Inglaterra', 'GB', 'https://flagcdn.com/gb.svg', '+44'),
+(20, 'Irlanda', 'IE', 'https://flagcdn.com/ie.svg', '+353'),
+(21, 'Trinidad y Tobago', 'TT', 'https://flagcdn.com/tt.svg', '+1-868'),
+(22, 'Venezuela', 'VE', 'https://flagcdn.com/ve.svg', '+58'),
+(23, 'República Dominicana', 'DO', 'https://flagcdn.com/do.svg', '+1-809');
 
 -- --------------------------------------------------------
 
@@ -272,7 +291,9 @@ INSERT INTO `users` (`id`, `email`, `user_type`, `state`, `accept_terms`, `accep
 (12, 'email23@example.com', 'people', 'pending', 1, 1, '2025-07-04 12:55:32.154', '2025-07-04 12:55:32.154'),
 (13, 'email233@example.com', 'people', 'pending', 1, 1, '2025-07-04 12:57:31.747', '2025-07-04 12:57:31.747'),
 (14, 'e3mail@example.com', 'people', 'pending', 1, 1, '2025-07-04 13:00:27.221', '2025-07-04 13:00:27.221'),
-(15, 'em5ail@example.com', 'people', 'pending', 1, 1, '2025-07-04 13:04:46.173', '2025-07-04 13:04:46.173');
+(15, 'em5ail@example.com', 'people', 'pending', 1, 1, '2025-07-04 13:04:46.173', '2025-07-04 13:04:46.173'),
+(16, 'jjuan@example.com', 'people', 'pending', 1, 1, '2025-07-04 18:49:52.589', '2025-07-04 18:49:52.589'),
+(17, 'jjjuan@example.com', 'people', 'pending', 1, 1, '2025-07-04 18:53:08.855', '2025-07-04 18:53:08.855');
 
 -- --------------------------------------------------------
 
@@ -293,7 +314,7 @@ CREATE TABLE `user_auth` (
 --
 
 INSERT INTO `user_auth` (`id`, `user_id`, `password`, `created_at`, `updated_at`) VALUES
-(1, 1, '$2y$10$gd6Co0CiZsw6uWx13P9qgulPPVcVHtKAA2yqc2k8aVc881GhKimdS', '2025-06-29 17:31:50.584', '2025-06-29 17:31:50.584'),
+(1, 1, '$2y$10$5cZkexQqHFfb4Krs3WJDReRNaaDZVVx3oHBf2eIx1uxlTBHiftPVq', '2025-06-29 17:31:50.584', '2025-06-29 17:31:50.584'),
 (2, 2, '$2y$10$xyz9876543210987654321ZyXwVuTsRqPoNmLkJiHgFeDcBa', '2025-06-29 17:31:50.584', '2025-06-29 17:31:50.584'),
 (3, 3, '$2y$10$jNz8Vf5xdJTD54JAC7GjK.T8bAHKgdDIzLn1TH.MpNRNkHVeDbx5e', '2025-06-29 19:59:45.336', '2025-06-29 19:59:45.336'),
 (4, 4, '$2y$10$5pQLKcuO2COJarGPzx633ehkaCnCtruM.KgsinZhSY57hIZhl85l.', '2025-07-01 03:35:36.162', '2025-07-01 03:35:36.162'),
@@ -302,7 +323,8 @@ INSERT INTO `user_auth` (`id`, `user_id`, `password`, `created_at`, `updated_at`
 (7, 11, '$2y$10$6qzQp8ZVE20rrAOBzHfR8eYPzThl.6UtdKnb4XInVQybWmVn.BEU.', '2025-07-03 16:49:47.980', '2025-07-03 16:49:47.980'),
 (8, 13, '$2y$10$OB2JIT7VMW69h9h4wf8nOeQseNlHV0Z9rIuQoymhLZmqU79XCnRma', '2025-07-04 12:57:31.860', '2025-07-04 12:57:31.860'),
 (9, 14, '$2y$10$1ySix1n3MZw5VZ2KAlax0.E8tS18WcEtkuy.BKogL4BXOZNhCgtSK', '2025-07-04 13:00:27.368', '2025-07-04 13:00:27.368'),
-(10, 15, '$2y$10$Sfpvldm4xcbNAbt/fEn.QOYA/hsOZ7fRA96hh2xwY9AyD6OhtYkBC', '2025-07-04 13:04:46.300', '2025-07-04 13:04:46.300');
+(10, 15, '$2y$10$Sfpvldm4xcbNAbt/fEn.QOYA/hsOZ7fRA96hh2xwY9AyD6OhtYkBC', '2025-07-04 13:04:46.300', '2025-07-04 13:04:46.300'),
+(11, 17, '$2y$10$v3kOUWIxD30btUExMKVC3OSF46kCq4dnoEDfhtZQg/zjz23VrB38.', '2025-07-04 18:53:08.990', '2025-07-04 18:53:08.990');
 
 -- --------------------------------------------------------
 
@@ -323,7 +345,8 @@ CREATE TABLE `user_data` (
   `document_number` varchar(30) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `document_type_id` int(11) DEFAULT NULL,
-  `locality_id` int(11) DEFAULT NULL,
+  `province` text NOT NULL,
+  `locality` text DEFAULT NULL,
   `id_employment_status` int(11) DEFAULT NULL,
   `id_fund_source` int(11) DEFAULT NULL,
   `id_job_sector` int(11) DEFAULT NULL
@@ -333,16 +356,17 @@ CREATE TABLE `user_data` (
 -- Volcado de datos para la tabla `user_data`
 --
 
-INSERT INTO `user_data` (`id`, `user_id`, `name`, `family_name`, `phone`, `address`, `address_secondary`, `postal_code`, `country_id`, `document_number`, `birthdate`, `document_type_id`, `locality_id`, `id_employment_status`, `id_fund_source`, `id_job_sector`) VALUES
-(1, 1, 'Juan', 'Pérez', '3216549870', 'Cra 1 #45-89', NULL, '110111', 1, NULL, NULL, NULL, 1, NULL, NULL, NULL),
-(2, 2, 'Empresa S.A.', NULL, '3111234567', 'Calle 100 #20-50', 'Oficina 302', '110221', 1, NULL, NULL, NULL, 7, NULL, NULL, NULL),
-(3, 3, 'John', 'Doe', '+573001112233', '123 Main St', 'Apt 301', '110111', 1, NULL, NULL, NULL, 13, NULL, NULL, NULL),
-(4, 4, 'Daniel', 'Doe', '+573001112233', '123 Main St', 'Apt 301', '110111', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 9, 'John', 'Doe', '3001112233', '123 Main St', 'Apt 301', '110111', 1, '1234567890', '1990-01-15', 1, NULL, NULL, NULL, NULL),
-(6, 10, 'John', 'Doe', '3801112233', '123 Main St', 'Apt 301', '110111', 1, '1534567890', '1990-01-15', 1, NULL, NULL, NULL, NULL),
-(7, 11, 'John', 'Doe', '99730017612233', '123 Main St', 'Apt 301', '110111', 1, '12634567890', '1990-01-15', 1, NULL, NULL, NULL, NULL),
-(10, 14, 'John', 'Doe', '+573001112233', '123 Main St', 'Apt 301', '110111', 1, '13234567890', '1990-01-15', 1, 2, 1, 2, 3),
-(11, 15, 'John', 'Doe', '83001112233', '123 Main St', 'Apt 301', '110111', 1, '123r4567890', '1990-01-15', 1, 2, 1, 2, 3);
+INSERT INTO `user_data` (`id`, `user_id`, `name`, `family_name`, `phone`, `address`, `address_secondary`, `postal_code`, `country_id`, `document_number`, `birthdate`, `document_type_id`, `province`, `locality`, `id_employment_status`, `id_fund_source`, `id_job_sector`) VALUES
+(1, 1, 'Juan', 'Pérez', '3216549870', 'Cra 1 #45-89', NULL, '110111', 1, NULL, NULL, NULL, '', '1', NULL, NULL, NULL),
+(2, 2, 'Empresa S.A.', NULL, '3111234567', 'Calle 100 #20-50', 'Oficina 302', '110221', 1, NULL, NULL, NULL, '', '7', NULL, NULL, NULL),
+(3, 3, 'John', 'Doe', '+573001112233', '123 Main St', 'Apt 301', '110111', 1, NULL, NULL, NULL, '', '13', NULL, NULL, NULL),
+(4, 4, 'Daniel', 'Doe', '+573001112233', '123 Main St', 'Apt 301', '110111', 1, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
+(5, 9, 'John', 'Doe', '3001112233', '123 Main St', 'Apt 301', '110111', 1, '1234567890', '1990-01-15', 1, '', NULL, NULL, NULL, NULL),
+(6, 10, 'John', 'Doe', '3801112233', '123 Main St', 'Apt 301', '110111', 1, '1534567890', '1990-01-15', 1, '', NULL, NULL, NULL, NULL),
+(7, 11, 'John', 'Doe', '99730017612233', '123 Main St', 'Apt 301', '110111', 1, '12634567890', '1990-01-15', 1, '', NULL, NULL, NULL, NULL),
+(10, 14, 'John', 'Doe', '+573001112233', '123 Main St', 'Apt 301', '110111', 1, '13234567890', '1990-01-15', 1, '', '2', 1, 2, 3),
+(11, 15, 'John', 'Doe', '83001112233', '123 Main St', 'Apt 301', '110111', 1, '123r4567890', '1990-01-15', 1, '', '2', 1, 2, 3),
+(12, 17, 'Juan', 'Pérez', '3801234567', 'Calle 123', 'Apto 4B', '110111', 1, '123234567890', '1990-01-15', 1, 'Antioquia', 'Medellín', 2, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -362,6 +386,13 @@ CREATE TABLE `user_preferences` (
   `allow_updates` tinyint(1) DEFAULT 0,
   `allow_partnerships` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `user_preferences`
+--
+
+INSERT INTO `user_preferences` (`id`, `user_data_id`, `is_us_citizen`, `is_us_tax_resident`, `fiscal_id`, `accept_terms_conditions`, `accept_security_policy`, `allow_visibility`, `allow_updates`, `allow_partnerships`) VALUES
+(1, 12, 0, 0, 'NIF123456', 1, 1, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -416,7 +447,9 @@ CREATE TABLE `user_tax_residency_country` (
 
 INSERT INTO `user_tax_residency_country` (`id`, `user_data_id`, `country_id`) VALUES
 (1, 1, 1),
-(2, 1, 2);
+(2, 1, 2),
+(3, 12, 1),
+(4, 12, 3);
 
 -- --------------------------------------------------------
 
@@ -532,7 +565,7 @@ ALTER TABLE `user_data`
   ADD KEY `user_id` (`user_id`),
   ADD KEY `country_id` (`country_id`),
   ADD KEY `fk_document_type` (`document_type_id`),
-  ADD KEY `locality_id` (`locality_id`),
+  ADD KEY `locality_id` (`locality`(768)),
   ADD KEY `fk_user_employment_status` (`id_employment_status`),
   ADD KEY `fk_user_fund_source` (`id_fund_source`),
   ADD KEY `fk_user_job_sector` (`id_job_sector`);
@@ -582,7 +615,7 @@ ALTER TABLE `work_sector`
 -- AUTO_INCREMENT de la tabla `country`
 --
 ALTER TABLE `country`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `document_type`
@@ -612,7 +645,7 @@ ALTER TABLE `locality`
 -- AUTO_INCREMENT de la tabla `password_reset`
 --
 ALTER TABLE `password_reset`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `province`
@@ -630,25 +663,25 @@ ALTER TABLE `tax_country`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `user_auth`
 --
 ALTER TABLE `user_auth`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `user_data`
 --
 ALTER TABLE `user_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `user_preferences`
 --
 ALTER TABLE `user_preferences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `user_tax_country`
@@ -666,7 +699,7 @@ ALTER TABLE `user_tax_preferences`
 -- AUTO_INCREMENT de la tabla `user_tax_residency_country`
 --
 ALTER TABLE `user_tax_residency_country`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `work_sector`
@@ -724,8 +757,7 @@ ALTER TABLE `user_data`
   ADD CONSTRAINT `fk_user_fund_source` FOREIGN KEY (`id_fund_source`) REFERENCES `fund_source` (`id_fund_source`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user_job_sector` FOREIGN KEY (`id_job_sector`) REFERENCES `work_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `user_data_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_data_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
-  ADD CONSTRAINT `user_data_ibfk_3` FOREIGN KEY (`locality_id`) REFERENCES `locality` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `user_data_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`);
 
 --
 -- Filtros para la tabla `user_preferences`

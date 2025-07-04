@@ -111,7 +111,13 @@ class UserModel
 
     public function findByDocument($documentNumber)
     {
-        $stmt = $this->db->prepare("SELECT u.id, u.email, u.user_type, u.state, ud.name, ud.document_number, ud.phone FROM users u LEFT JOIN user_data ud ON u.id = ud.user_id WHERE ud.document_number = :doc");
+        $stmt = $this->db->prepare("
+          SELECT u.id, u.email, u.user_type, u.state,
+                 ud.name, ud.document_number, ud.phone
+          FROM users u
+          LEFT JOIN user_data ud ON u.id = ud.user_id
+          WHERE ud.document_number = :doc
+        ");
         $stmt->execute(['doc' => $documentNumber]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

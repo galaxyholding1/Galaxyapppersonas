@@ -45,6 +45,12 @@ switch ($routeKey) {
         readfile(__DIR__ . '/../docs/swagger.json');
         break;
 
+    case $method === 'GET' && preg_match('#^/user/([0-9]+)$#', $endpoint, $matches):
+        require_once __DIR__ . '/../controllers/UserController.php';
+        $document = $matches[1];
+        (new UserController())->getUserByDocument($document);
+        break;
+
     case 'POST /login':
         require_once __DIR__ . '/../controllers/AuthController.php';
         (new AuthController())->login();

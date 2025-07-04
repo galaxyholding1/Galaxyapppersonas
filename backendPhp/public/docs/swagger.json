@@ -145,7 +145,7 @@
           "schema": {
             "type": "integer"
           },
-          "description": "ID del usuario"
+          "description": "Documento  del usuario"
         }
       ],
       "responses": {

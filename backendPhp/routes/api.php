@@ -98,6 +98,25 @@ switch ($routeKey) {
         (new EmploymentStatusController())->store();
         break;
 
+    case 'GET /job-sector':
+        require_once __DIR__ . '/../controllers/JobSectorController.php';
+        (new JobSectorController())->index();
+        break;
+
+    case 'POST /job-sector':
+        require_once __DIR__ . '/../controllers/JobSectorController.php';
+        (new JobSectorController())->store();
+        break;
+
+    case 'GET /fund-source':
+        require_once __DIR__ . '/../controllers/FundSourceController.php';
+        (new FundSourceController())->index();
+        break;
+
+    case 'POST /fund-source':
+        require_once __DIR__ . '/../controllers/FundSourceController.php';
+        (new FundSourceController())->store();
+        break;
 
 
 

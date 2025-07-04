@@ -527,7 +527,100 @@
           }
         }
       }
-    }
+  },
+  "/job-sector": {
+      "get": {
+        "summary": "Obtener sectores de trabajo",
+        "tags": ["JobSector"],
+        "responses": {
+          "200": {
+            "description": "Lista de sectores",
+            "content": {
+              "application/json": {
+                "example": [
+                  { "id_job_sector": 1, "name": "Tecnología", "description": "Sector relacionado a software y hardware" }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear sector de trabajo",
+        "tags": ["JobSector"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sector creado"
+          },
+          "400": {
+            "description": "Faltan datos"
+          }
+        }
+      }
+  },
+
+  "/fund-source": {
+      "get": {
+        "summary": "Obtener fuentes de fondos",
+        "tags": ["FundSource"],
+        "responses": {
+          "200": {
+            "description": "Lista de fuentes",
+            "content": {
+              "application/json": {
+                "example": [
+                  { "id_fund_source": 1, "name": "Ahorros", "description": "Fondos propios del usuario" }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear fuente de fondos",
+        "tags": ["FundSource"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fuente creada correctamente"
+          },
+          "400": {
+            "description": "Faltan datos"
+          }
+        }
+      }
+  }
+
+
 
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-07-2025 a las 19:12:29
+-- Tiempo de generación: 04-07-2025 a las 21:59:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -293,7 +293,8 @@ INSERT INTO `users` (`id`, `email`, `user_type`, `state`, `accept_terms`, `accep
 (14, 'e3mail@example.com', 'people', 'pending', 1, 1, '2025-07-04 13:00:27.221', '2025-07-04 13:00:27.221'),
 (15, 'em5ail@example.com', 'people', 'pending', 1, 1, '2025-07-04 13:04:46.173', '2025-07-04 13:04:46.173'),
 (16, 'jjuan@example.com', 'people', 'pending', 1, 1, '2025-07-04 18:49:52.589', '2025-07-04 18:49:52.589'),
-(17, 'jjjuan@example.com', 'people', 'pending', 1, 1, '2025-07-04 18:53:08.855', '2025-07-04 18:53:08.855');
+(17, 'jjjuan@example.com', 'people', 'pending', 1, 1, '2025-07-04 18:53:08.855', '2025-07-04 18:53:08.855'),
+(18, 'alex@example.com', 'people', 'pending', 1, 1, '2025-07-04 21:37:43.451', '2025-07-04 21:37:43.451');
 
 -- --------------------------------------------------------
 
@@ -324,7 +325,8 @@ INSERT INTO `user_auth` (`id`, `user_id`, `password`, `created_at`, `updated_at`
 (8, 13, '$2y$10$OB2JIT7VMW69h9h4wf8nOeQseNlHV0Z9rIuQoymhLZmqU79XCnRma', '2025-07-04 12:57:31.860', '2025-07-04 12:57:31.860'),
 (9, 14, '$2y$10$1ySix1n3MZw5VZ2KAlax0.E8tS18WcEtkuy.BKogL4BXOZNhCgtSK', '2025-07-04 13:00:27.368', '2025-07-04 13:00:27.368'),
 (10, 15, '$2y$10$Sfpvldm4xcbNAbt/fEn.QOYA/hsOZ7fRA96hh2xwY9AyD6OhtYkBC', '2025-07-04 13:04:46.300', '2025-07-04 13:04:46.300'),
-(11, 17, '$2y$10$v3kOUWIxD30btUExMKVC3OSF46kCq4dnoEDfhtZQg/zjz23VrB38.', '2025-07-04 18:53:08.990', '2025-07-04 18:53:08.990');
+(11, 17, '$2y$10$v3kOUWIxD30btUExMKVC3OSF46kCq4dnoEDfhtZQg/zjz23VrB38.', '2025-07-04 18:53:08.990', '2025-07-04 18:53:08.990'),
+(12, 18, '$2y$10$VdM59BkH0elg2IvtTwOS/.h54ZtX94Zu7y9m7g5x4frdWjB.LfPQK', '2025-07-04 21:37:43.594', '2025-07-04 21:37:43.594');
 
 -- --------------------------------------------------------
 
@@ -366,7 +368,8 @@ INSERT INTO `user_data` (`id`, `user_id`, `name`, `family_name`, `phone`, `addre
 (7, 11, 'John', 'Doe', '99730017612233', '123 Main St', 'Apt 301', '110111', 1, '12634567890', '1990-01-15', 1, '', NULL, NULL, NULL, NULL),
 (10, 14, 'John', 'Doe', '+573001112233', '123 Main St', 'Apt 301', '110111', 1, '13234567890', '1990-01-15', 1, '', '2', 1, 2, 3),
 (11, 15, 'John', 'Doe', '83001112233', '123 Main St', 'Apt 301', '110111', 1, '123r4567890', '1990-01-15', 1, '', '2', 1, 2, 3),
-(12, 17, 'Juan', 'Pérez', '3801234567', 'Calle 123', 'Apto 4B', '110111', 1, '123234567890', '1990-01-15', 1, 'Antioquia', 'Medellín', 2, 3, 4);
+(12, 17, 'Juan', 'Pérez', '3801234567', 'Calle 123', 'Apto 4B', '110111', 1, '123234567890', '1990-01-15', 1, 'Antioquia', 'Medellín', 2, 3, 4),
+(13, 18, 'Juan', 'Pérez', '3001234567', 'Calle 123', 'Apto 4B', '110111', 1, '8484845', '1990-01-15', 1, 'Antioquia', 'Medellín', 2, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -392,7 +395,8 @@ CREATE TABLE `user_preferences` (
 --
 
 INSERT INTO `user_preferences` (`id`, `user_data_id`, `is_us_citizen`, `is_us_tax_resident`, `fiscal_id`, `accept_terms_conditions`, `accept_security_policy`, `allow_visibility`, `allow_updates`, `allow_partnerships`) VALUES
-(1, 12, 0, 0, 'NIF123456', 1, 1, 1, 0, 1);
+(1, 12, 0, 0, 'NIF123456', 1, 1, 1, 0, 1),
+(2, 13, 0, 0, 'NIF123456', 1, 1, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -449,7 +453,9 @@ INSERT INTO `user_tax_residency_country` (`id`, `user_data_id`, `country_id`) VA
 (1, 1, 1),
 (2, 1, 2),
 (3, 12, 1),
-(4, 12, 3);
+(4, 12, 3),
+(5, 13, 1),
+(6, 13, 3);
 
 -- --------------------------------------------------------
 
@@ -663,25 +669,25 @@ ALTER TABLE `tax_country`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `user_auth`
 --
 ALTER TABLE `user_auth`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `user_data`
 --
 ALTER TABLE `user_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `user_preferences`
 --
 ALTER TABLE `user_preferences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `user_tax_country`
@@ -699,7 +705,7 @@ ALTER TABLE `user_tax_preferences`
 -- AUTO_INCREMENT de la tabla `user_tax_residency_country`
 --
 ALTER TABLE `user_tax_residency_country`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `work_sector`

@@ -404,7 +404,86 @@
       }
     }
   }
-}
+    },
+    "/locations/provinces": {
+      "get": {
+        "summary": "Obtener provincias por país",
+        "description": "Devuelve todas las provincias asociadas a un país.",
+        "parameters": [
+          {
+            "name": "country_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID del país"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de provincias del país",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 10 },
+                      "name": { "type": "string", "example": "Antioquia" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "country_id es requerido"
+          }
+        }
+      }
+    },
+  "/locations/localities": {
+    "get": {
+      "summary": "Obtener localidades por provincia",
+      "description": "Devuelve todas las localidades asociadas a una provincia.",
+      "parameters": [
+        {
+          "name": "province_id",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID de la provincia"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de localidades de la provincia",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 101 },
+                    "name": { "type": "string", "example": "Medellín" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "province_id es requerido"
+        }
+      }
+    }
+  }
+
 
 
 

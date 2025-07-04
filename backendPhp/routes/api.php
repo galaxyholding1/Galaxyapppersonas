@@ -78,6 +78,16 @@ switch ($routeKey) {
         (new PasswordController())->resetPassword();
         break;
 
+    case 'GET /locations/provinces':
+        require_once __DIR__ . '/../controllers/LocationController.php';
+        (new LocationController())->getProvinces();
+        break;
+
+    case 'GET /locations/localities':
+        require_once __DIR__ . '/../controllers/LocationController.php';
+        (new LocationController())->getLocalities();
+        break;
+
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Route not found']);

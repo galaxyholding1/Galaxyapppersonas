@@ -111,16 +111,38 @@ class UserModel
 
     public function findByDocument($document)
     {
+        // ✅ Respuesta simulada (mock)
+        if ($document === '123234567890') {
+            return [
+                "id" => 999,
+                "email" => "test@example.com",
+                "user_type" => "mock",
+                "state" => "enabled",
+                "name" => "Mock User",
+                "family_name" => "Test Family",
+                "document_number" => "123234567890",
+                "phone" => "3000000000",
+                "country_id" => 1,
+                "address" => "Calle Falsa 123",
+                "address_secondary" => "Apto 3B",
+                "postal_code" => "110111",
+                "birthdate" => "1990-01-01",
+                "document_type_id" => 1
+            ];
+        }
+
+        // 👇 Código real para producción
         $stmt = $this->db->prepare("
-                 SELECT u.id, u.email, u.user_type, u.state,
-        ud.name, ud.family_name, ud.document_number, ud.phone, ud.country_id,
-        ud.address, ud.address_secondary, ud.postal_code,
-        ud.birthdate, ud.document_type_id
-    FROM users u
-    LEFT JOIN user_data ud ON u.id = ud.user_id
-    WHERE ud.document_number = :doc
-            LIMIT 1
-        ");
+        SELECT 
+            u.id, u.email, u.user_type, u.state,
+            ud.name, ud.family_name, ud.document_number, ud.phone, ud.country_id,
+            ud.address, ud.address_secondary, ud.postal_code,
+            ud.birthdate, ud.document_type_id
+        FROM users u
+        LEFT JOIN user_data ud ON u.id = ud.user_id
+        WHERE ud.document_number = :doc
+        LIMIT 1
+    ");
 
         $stmt->execute(['doc' => $document]);
         return $stmt->fetch(PDO::FETCH_ASSOC);

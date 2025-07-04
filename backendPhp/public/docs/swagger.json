@@ -154,18 +154,40 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/User"
+              "type": "object",
+              "properties": {
+                "id": { "type": "integer", "example": 1 },
+                "email": { "type": "string", "example": "juan@example.com" },
+                "user_type": { "type": "string", "example": "people" },
+                "state": { "type": "string", "example": "enabled" },
+                "name": { "type": "string", "example": "Juan" },
+                "family_name": { "type": "string", "example": "Pérez" },
+                "document_number": { "type": "string", "example": "1234567890" },
+                "phone": { "type": "string", "example": "3001234567" },
+                "country_id": { "type": "integer", "example": 1 },
+                "address": { "type": "string", "example": "Calle 123" },
+                "address_secondary": { "type": "string", "example": "Apto 3B" },
+                "postal_code": { "type": "string", "example": "110111" },
+                "birthdate": { "type": "string", "format": "date", "example": "1990-01-01" },
+                "document_type_id": { "type": "integer", "example": 1 }
+              }
             }
           }
         }
       },
       "404": {
-        "description": "Usuario no encontrado"
+        "description": "Usuario no encontrado",
+        "content": {
+          "application/json": {
+            "example": {
+              "error": "User not found"
+            }
+          }
+        }
       }
     }
   }
 },
-
 
 
     "/countries": {

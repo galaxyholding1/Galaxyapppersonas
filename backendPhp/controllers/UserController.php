@@ -2,6 +2,8 @@
 // controllers/UserController.php
 require_once __DIR__ . '/../config/database.php';
 
+require_once __DIR__ . '/../models/User.php';
+
 class UserController
 {
 
@@ -139,8 +141,6 @@ class UserController
                 return;
             }
 
-            require_once __DIR__ . '/../config/Database.php';
-            require_once __DIR__ . '/../models/UserModel.php';
 
             $db = (new Database())->connect();
             $model = new UserModel($db);
@@ -183,8 +183,6 @@ class UserController
                 return;
             }
 
-            require_once __DIR__ . '/../config/Database.php';
-            require_once __DIR__ . '/../models/UserModel.php';
 
             $db = (new Database())->connect();
             $model = new UserModel($db);
@@ -211,48 +209,46 @@ class UserController
     public function getUserByDocument($document)
     {
         try {
-            // Validación básica
-            if (!$document || !is_numeric($document)) {
+            // Validar que el documento no esté vacío y sea numérico
+            if (empty($document) || !is_numeric($document)) {
                 http_response_code(400);
                 echo json_encode(["error" => "Invalid document number"]);
                 return;
             }
 
-            // ⚠️ Respuesta simulada (mock) para pruebas
-            if ($document === '123234567890') {
-                http_response_code(200);
-                echo json_encode([
-                    "id" => 999,
-                    "email" => "test@example.com",
-                    "user_type" => "mock",
-                    "state" => "enabled",
-                    "document_number" => $document,
-                    "name" => "Mock User",
-                    "phone" => "3000000000"
-                ]);
+            // Conectar a la base de datos
+
+            $db = (new Database())->connect();
+
+            if (!$db) {
+                http_response_code(500);
+                echo json_encode(["error" => "Failed to connect to database"]);
                 return;
             }
 
-            require_once __DIR__ . '/../config/Database.php';
-            require_once __DIR__ . '/../models/UserModel.php';
-
-            $db = (new Database())->connect();
             $model = new UserModel($db);
 
+            // Ejecutar la búsqueda
             $user = $model->findByDocument($document);
 
-            if ($user) {
+            if ($user && is_array($user)) {
                 http_response_code(200);
                 echo json_encode($user);
             } else {
                 http_response_code(404);
                 echo json_encode(["error" => "User not found"]);
             }
-        } catch (Exception $e) {
+        } catch (PDOException $pdoEx) {
+            http_response_code(500);
+            echo json_encode([
+                "error" => "Database error",
+                "message" => $pdoEx->getMessage()
+            ]);
+        } catch (Exception $ex) {
             http_response_code(500);
             echo json_encode([
                 "error" => "Internal server error",
-                "message" => $e->getMessage()
+                "message" => $ex->getMessage()
             ]);
         }
     }

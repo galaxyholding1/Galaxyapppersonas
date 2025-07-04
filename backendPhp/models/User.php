@@ -109,16 +109,20 @@ class UserModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function findByDocument($documentNumber)
+    public function findByDocument($document)
     {
         $stmt = $this->db->prepare("
-          SELECT u.id, u.email, u.user_type, u.state,
-                 ud.name, ud.document_number, ud.phone
-          FROM users u
-          LEFT JOIN user_data ud ON u.id = ud.user_id
-          WHERE ud.document_number = :doc
+                 SELECT u.id, u.email, u.user_type, u.state,
+        ud.name, ud.family_name, ud.document_number, ud.phone, ud.country_id,
+        ud.address, ud.address_secondary, ud.postal_code,
+        ud.birthdate, ud.document_type_id
+    FROM users u
+    LEFT JOIN user_data ud ON u.id = ud.user_id
+    WHERE ud.document_number = :doc
+            LIMIT 1
         ");
-        $stmt->execute(['doc' => $documentNumber]);
+
+        $stmt->execute(['doc' => $document]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

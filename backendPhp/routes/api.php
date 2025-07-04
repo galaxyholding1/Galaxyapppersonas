@@ -33,116 +33,133 @@ if ($requestMethod === 'GET' && preg_match('#^/data/personal-documents/(\d+)/(cl
     return;
 }
 
+
+
 //  Ruta detectada (puedes dejarlo para debug temporal)
 // Path detected (you can leave it for temporary debugging)
 # echo "Ruta procesada: [$routeKey]";
+try {
+    switch ($routeKey) {
 
-switch ($routeKey) {
+
+        case 'GET /swagger.json':
+            header("Content-Type: application/json");
+            readfile(__DIR__ . '/../docs/swagger.json');
+            break;
 
 
-    case 'GET /swagger.json':
-        header("Content-Type: application/json");
-        readfile(__DIR__ . '/../docs/swagger.json');
-        break;
 
-    case $method === 'GET' && preg_match('#^/user/([0-9]+)$#', $endpoint, $matches):
-        require_once __DIR__ . '/../controllers/UserController.php';
-        $document = $matches[1];
-        (new UserController())->getUserByDocument($document);
-        break;
+        case 'POST /login':
+            require_once __DIR__ . '/../controllers/AuthController.php';
+            (new AuthController())->login();
+            break;
 
-    case 'POST /login':
-        require_once __DIR__ . '/../controllers/AuthController.php';
-        (new AuthController())->login();
-        break;
+        case 'POST /register':
+            require_once __DIR__ . '/../controllers/UserController.php';
+            (new UserController())->register();
+            break;
 
-    case 'POST /register':
-        require_once __DIR__ . '/../controllers/UserController.php';
-        (new UserController())->register();
-        break;
+        case $requestMethod === 'GET' && preg_match('#^/user/(\d+)$#', $requestUri, $matches):
+            require_once __DIR__ . '/../controllers/UserController.php';
+            try {
+                (new UserController())->getUserByDocument($matches[1]);
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo json_encode([
+                    "error" => "Internal server error",
+                    "message" => $e->getMessage()
+                ]);
+            }
+            break;
 
-    case 'GET /countries':
-        require_once __DIR__ . '/../controllers/CountryController.php';
-        (new CountryController())->getAll();
-        break;
+        case 'GET /countries':
+            require_once __DIR__ . '/../controllers/CountryController.php';
+            (new CountryController())->getAll();
+            break;
 
-    case 'POST /validate/user':
-        require_once __DIR__ . '/../controllers/UserController.php';
-        (new UserController())->validateEmailAndPhone();
-        break;
+        case 'POST /validate/user':
+            require_once __DIR__ . '/../controllers/UserController.php';
+            (new UserController())->validateEmailAndPhone();
+            break;
 
-    case 'POST /validate/document':
-        require_once __DIR__ . '/../controllers/UserController.php';
-        (new UserController())->validateDocument();
-        break;
+        case 'POST /validate/document':
+            require_once __DIR__ . '/../controllers/UserController.php';
+            (new UserController())->validateDocument();
+            break;
 
-    case 'POST /forgot-password':
-        require_once __DIR__ . '/../controllers/PasswordController.php';
-        (new PasswordController())->forgotPassword();
-        break;
+        case 'POST /forgot-password':
+            require_once __DIR__ . '/../controllers/PasswordController.php';
+            (new PasswordController())->forgotPassword();
+            break;
 
-    case 'POST /reset-password':
-        require_once __DIR__ . '/../controllers/PasswordController.php';
-        (new PasswordController())->resetPassword();
-        break;
+        case 'POST /reset-password':
+            require_once __DIR__ . '/../controllers/PasswordController.php';
+            (new PasswordController())->resetPassword();
+            break;
 
-    case 'GET /locations/provinces':
-        require_once __DIR__ . '/../controllers/LocationController.php';
-        (new LocationController())->getProvinces();
-        break;
+        case 'GET /locations/provinces':
+            require_once __DIR__ . '/../controllers/LocationController.php';
+            (new LocationController())->getProvinces();
+            break;
 
-    case 'GET /locations/localities':
-        require_once __DIR__ . '/../controllers/LocationController.php';
-        (new LocationController())->getLocalities();
-        break;
+        case 'GET /locations/localities':
+            require_once __DIR__ . '/../controllers/LocationController.php';
+            (new LocationController())->getLocalities();
+            break;
 
-    case 'GET /employment-status':
-        require_once __DIR__ . '/../controllers/EmploymentStatusController.php';
-        (new EmploymentStatusController())->index();
-        break;
+        case 'GET /employment-status':
+            require_once __DIR__ . '/../controllers/EmploymentStatusController.php';
+            (new EmploymentStatusController())->index();
+            break;
 
-    case 'POST /employment-status':
-        require_once __DIR__ . '/../controllers/EmploymentStatusController.php';
-        (new EmploymentStatusController())->store();
-        break;
+        case 'POST /employment-status':
+            require_once __DIR__ . '/../controllers/EmploymentStatusController.php';
+            (new EmploymentStatusController())->store();
+            break;
 
-    case 'GET /job-sector':
-        require_once __DIR__ . '/../controllers/JobSectorController.php';
-        (new JobSectorController())->index();
-        break;
+        case 'GET /job-sector':
+            require_once __DIR__ . '/../controllers/JobSectorController.php';
+            (new JobSectorController())->index();
+            break;
 
-    case 'POST /job-sector':
-        require_once __DIR__ . '/../controllers/JobSectorController.php';
-        (new JobSectorController())->store();
-        break;
+        case 'POST /job-sector':
+            require_once __DIR__ . '/../controllers/JobSectorController.php';
+            (new JobSectorController())->store();
+            break;
 
-    case 'GET /fund-source':
-        require_once __DIR__ . '/../controllers/FundSourceController.php';
-        (new FundSourceController())->index();
-        break;
+        case 'GET /fund-source':
+            require_once __DIR__ . '/../controllers/FundSourceController.php';
+            (new FundSourceController())->index();
+            break;
 
-    case 'POST /fund-source':
-        require_once __DIR__ . '/../controllers/FundSourceController.php';
-        (new FundSourceController())->store();
-        break;
+        case 'POST /fund-source':
+            require_once __DIR__ . '/../controllers/FundSourceController.php';
+            (new FundSourceController())->store();
+            break;
 
-    case 'GET /tax-country':
-        require_once __DIR__ . '/../controllers/TaxCountryController.php';
-        (new TaxCountryController())->getAll();
-        break;
+        case 'GET /tax-country':
+            require_once __DIR__ . '/../controllers/TaxCountryController.php';
+            (new TaxCountryController())->getAll();
+            break;
 
-    case 'POST /tax-country':
-        require_once __DIR__ . '/../controllers/TaxCountryController.php';
-        (new TaxCountryController())->store();
-        break;
+        case 'POST /tax-country':
+            require_once __DIR__ . '/../controllers/TaxCountryController.php';
+            (new TaxCountryController())->store();
+            break;
 
-    case 'GET /user/{id}':
-        require_once __DIR__ . '/../controllers/UserController.php';
-        (new UserController())->getUser($params['id']);
-        break;
 
-    default:
-        http_response_code(404);
-        echo json_encode(['error' => 'Route not found']);
-        break;
+
+        default:
+
+            http_response_code(404);
+            echo json_encode(['error' => 'Route not found']);
+            break;
+    }
+} catch (Exception $e) {
+    http_response_code(500);
+    error_log("[ERROR] " . $e->getMessage());
+    echo json_encode([
+        "error" => "Internal server error",
+        "message" => $e->getMessage()
+    ]);
 }

@@ -134,58 +134,37 @@
 }
 ,
 
-  "/user/{id}": {
-    "get": {
-      "summary": "Obtener información completa del usuario",
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "integer"
-          },
-          "description": "Documento  del usuario"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Información completa del usuario",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "$ref": "#/components/schemas/User"
-                  },
-                  "user_data": {
-                    "$ref": "#/components/schemas/UserData"
-                  },
-                  "tax_preferences": {
-                    "$ref": "#/components/schemas/UserTaxPreferences"
-                  },
-                  "residenceFiscalCountries": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": { "type": "integer" },
-                        "name": { "type": "string" }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "404": {
-          "description": "Usuario no encontrado"
+"/user/{documentNumber}": {
+  "get": {
+    "summary": "Consultar usuario por número de documento",
+    "tags": ["Usuarios"],
+    "parameters": [
+      {
+        "name": "documentNumber",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
         }
       }
+    ],
+    "responses": {
+      "200": {
+        "description": "Usuario encontrado",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Usuario no encontrado"
+      }
     }
-  },
+  }
+},
 
 
 

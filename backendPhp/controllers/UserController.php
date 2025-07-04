@@ -125,16 +125,124 @@ class UserController
         }
     }
 
+    public function validateEmailAndPhone()
+    {
+        try {
+            $input = json_decode(file_get_contents("php://input"), true);
+
+            $email = $input['email'] ?? null;
+            $phone = $input['phone'] ?? null;
+
+            if (!$email || !$phone) {
+                http_response_code(400);
+                echo json_encode(["error" => "Missing email or phone"]);
+                return;
+            }
+
+            require_once __DIR__ . '/../config/Database.php';
+            require_once __DIR__ . '/../models/UserModel.php';
+
+            $db = (new Database())->connect();
+            $model = new UserModel($db);
+
+            $response = [];
+
+            if ($model->emailExists($email)) {
+                $response['emailExists'] = true;
+            }
+
+            if ($model->phoneExists($phone)) {
+                $response['phoneExists'] = true;
+            }
+
+            if (!empty($response)) {
+                http_response_code(409); // conflicto
+                echo json_encode($response);
+            } else {
+                http_response_code(200);
+                echo json_encode(["message" => "Email and phone are available"]);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                "error" => "Internal server error",
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function validateDocument()
+    {
+        try {
+            $input = json_decode(file_get_contents("php://input"), true);
+            $documentNumber = $input['documentNumber'] ?? null;
+
+            if (!$documentNumber) {
+                http_response_code(400);
+                echo json_encode(["error" => "Missing documentNumber"]);
+                return;
+            }
+
+            require_once __DIR__ . '/../config/Database.php';
+            require_once __DIR__ . '/../models/UserModel.php';
+
+            $db = (new Database())->connect();
+            $model = new UserModel($db);
+
+            if ($model->documentExists($documentNumber)) {
+                http_response_code(409); // conflicto
+                echo json_encode(["documentExists" => true]);
+            } else {
+                http_response_code(200);
+                echo json_encode(["message" => "Document number is available"]);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                "error" => "Internal server error",
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
+
+
+
     public function getUserByDocument($document)
     {
         try {
-            $db = (new Database())->connect();
+            // Validación básica
+            if (!$document || !is_numeric($document)) {
+                http_response_code(400);
+                echo json_encode(["error" => "Invalid document number"]);
+                return;
+            }
+
+            // ⚠️ Respuesta simulada (mock) para pruebas
+            if ($document === '123234567890') {
+                http_response_code(200);
+                echo json_encode([
+                    "id" => 999,
+                    "email" => "test@example.com",
+                    "user_type" => "mock",
+                    "state" => "enabled",
+                    "document_number" => $document,
+                    "name" => "Mock User",
+                    "phone" => "3000000000"
+                ]);
+                return;
+            }
+
+            require_once __DIR__ . '/../config/Database.php';
             require_once __DIR__ . '/../models/UserModel.php';
+
+            $db = (new Database())->connect();
             $model = new UserModel($db);
 
             $user = $model->findByDocument($document);
 
             if ($user) {
+                http_response_code(200);
                 echo json_encode($user);
             } else {
                 http_response_code(404);
@@ -142,7 +250,10 @@ class UserController
             }
         } catch (Exception $e) {
             http_response_code(500);
-            echo json_encode(["error" => "Internal server error", "message" => $e->getMessage()]);
+            echo json_encode([
+                "error" => "Internal server error",
+                "message" => $e->getMessage()
+            ]);
         }
     }
 }

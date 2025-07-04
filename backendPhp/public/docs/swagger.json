@@ -482,7 +482,53 @@
         }
       }
     }
-  }
+  },
+  "/employment-status": {
+      "get": {
+        "summary": "Obtener situaciones laborales",
+        "tags": ["EmploymentStatus"],
+        "responses": {
+          "200": {
+            "description": "Lista de situaciones laborales",
+            "content": {
+              "application/json": {
+                "example": [
+                  { "id": 1, "name": "Empleado", "description": "Trabajo en relación de dependencia" }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear situación laboral",
+        "tags": ["EmploymentStatus"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Creado correctamente"
+          },
+          "400": {
+            "description": "Faltan datos"
+          }
+        }
+      }
+    }
+
 
 
 

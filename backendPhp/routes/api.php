@@ -88,6 +88,20 @@ switch ($routeKey) {
         (new LocationController())->getLocalities();
         break;
 
+    case 'GET /employment-status':
+        require_once __DIR__ . '/../controllers/EmploymentStatusController.php';
+        (new EmploymentStatusController())->index();
+        break;
+
+    case 'POST /employment-status':
+        require_once __DIR__ . '/../controllers/EmploymentStatusController.php';
+        (new EmploymentStatusController())->store();
+        break;
+
+
+
+
+
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Route not found']);

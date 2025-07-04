@@ -38,14 +38,16 @@ if ($requestMethod === 'GET' && preg_match('#^/data/personal-documents/(\d+)/(cl
 # echo "Ruta procesada: [$routeKey]";
 
 switch ($routeKey) {
-    case 'POST /login':
-        require_once __DIR__ . '/../controllers/AuthController.php';
-        (new AuthController())->login();
-        break;
+
 
     case 'GET /swagger.json':
         header("Content-Type: application/json");
         readfile(__DIR__ . '/../docs/swagger.json');
+        break;
+
+    case 'POST /login':
+        require_once __DIR__ . '/../controllers/AuthController.php';
+        (new AuthController())->login();
         break;
 
     case 'POST /register':
@@ -118,8 +120,20 @@ switch ($routeKey) {
         (new FundSourceController())->store();
         break;
 
+    case 'GET /tax-country':
+        require_once __DIR__ . '/../controllers/TaxCountryController.php';
+        (new TaxCountryController())->getAll();
+        break;
 
+    case 'POST /tax-country':
+        require_once __DIR__ . '/../controllers/TaxCountryController.php';
+        (new TaxCountryController())->store();
+        break;
 
+    case 'GET /user/{id}':
+        require_once __DIR__ . '/../controllers/UserController.php';
+        (new UserController())->getUser($params['id']);
+        break;
 
     default:
         http_response_code(404);
